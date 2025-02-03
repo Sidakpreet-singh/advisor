@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feed</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header Styling */
+        header {
+            text-align: center;
+            padding: 20px;
+            background-color: #1976D2;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2rem;
+        }
+
+        /* Feed Container */
+        .feed-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Individual Post */
+        .post {
+            background-color: white;
+            padding: 15px;
+            margin: 10px 0;
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        /* User Name */
+        .post h3 {
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        /* Post Content */
+        .post p {
+            font-size: 1rem;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .post-item {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .post-item img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            /* Optional: Add border for clarity */
+        }
+
+        .actions {
+            margin-top: 10px;
+        }
+
+        /* Like and Unlike Buttons */
+        button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .like-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .like-btn:hover {
+            background-color: #45a049;
+        }
+
+        .unlike-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .unlike-btn:hover {
+            background-color: #e53935;
+        }
+
+        /* Notification Styling */
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: none;
+            font-size: 1rem;
+        }
+
+        .notification.show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Welcome to the Feed</h1>
+    </header>
+
+    <div id="feedContainer" class="feed-container">
+        <!-- Posts will be dynamically added here -->
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <script>
+
+        // Function to show notifications
+        function showNotification(message, isError = false) {
+            const notification = document.getElementById("notification");
+            notification.textContent = message;
+            notification.className = isError ? "notification error" : "notification";
+            notification.style.display = "block";
+            setTimeout(() => {
+                notification.style.display = "none";
+            }, 3000);
+        }
+        // Function to fetch and display posts in the Feed
+        async function loadFeed() {
+            try {
+                const response = await fetch('http://localhost:5000/posts');  // Fetch posts from backend
+                const data = await response.json();
+
+                if (response.ok) {
+                    const posts = data.posts;
+                    const feedContainer = document.getElementById('feedContainer');
+                    feedContainer.innerHTML = '';  // Clear existing feed content
+
+                    // Loop through the posts and create HTML elements
+                    posts.forEach(post => {
+                        console.log("Post Image URL:", post.image);
+
+                        const imageUrl = post.image && post.image.trim() !== ""
+                            ? `http://localhost:5000${post.image}`  // Full URL to fetch image
+                            : "";  // No image URL if no image is present
+                        const postElement = document.createElement('div');
+                        postElement.classList.add('post-item');
+
+
+
+                        postElement.innerHTML = `
+                    <h3>${post.userId.name}</h3>
+                    <p>${post.content}</p>
+                      ${imageUrl ? `<img src='${imageUrl}' alt="Post Image" style="max-width: 100%; height: auto;">` : ''}
+    <div class="actions">
+        <button class="like-btn" onclick="likePost('${post._id}')">Like</button>
+        <button class="unlike-btn" onclick="unlikePost('${post._id}')">Unlike</button>
+    </div>
+`;
+
+
+                        feedContainer.appendChild(postElement);
+                    });
+                } else {
+                    showNotification('Error loading feed');
+                }
+            } catch (error) {
+                showNotification('Error fetching posts');
+            }
+        }
+
+        // Call loadFeed when the Feed page is shown
+        // Load posts on page load
+        window.onload = function () {
+            loadFeed();
+        };
+
+        // Function to handle liking a post
+        async function likePost(postId) {
+            try {
+                const response = await fetch(`http://localhost:5000/like/${postId}`, {
+                    method: 'POST',
+                });
+
+                if (response.ok) {
+                    showNotification('Post liked!');
+                    loadFeed();  // Reload feed after liking the post
+                } else {
+                    showNotification('Error liking post');
+                }
+            } catch (error) {
+                showNotification('Error liking post');
+            }
+        }
+
+        // Function to handle unliking a post
+        async function unlikePost(postId) {
+            try {
+                const response = await fetch(`http://localhost:5000/unlike/${postId}`, {
+                    method: 'POST',
+                });
+
+                if (response.ok) {
+                    showNotification('Post unliked!');
+                    loadFeed();  // Reload feed after unliking the post
+                } else {
+                    showNotification('Error unliking post');
+                }
+            } catch (error) {
+                showNotification('Error unliking post');
+            }
+        }
+    </script>
+</body>
+
+</html>

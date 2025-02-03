@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamPath</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and Base Styles */
+        html,
+        body {
+            height: 100%;
+            overflow: auto;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f5f5f5;
+            
+            background: url(project.jpg) no-repeat center center fixed;
+            background-size: cover;
+}
+
+        
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            width: 100%;
+            background-color: #2F3C7E;
+            padding: 20px;
+            color: #fff;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 999;
+        }
+
+        /* Auth Forms */
+        .auth-forms {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .input-field:focus {
+            border-color: #2F3C7E;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.6);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #2F3C7E;
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+            transform: translateY(-5px);
+        }
+
+        p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        a {
+            color: #2F3C7E;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: #2F3C7E;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+            text-align: center;
+            width: 100%;
+            padding: 40px;
+            margin-top: 100px;
+        }
+
+        .sidebar {
+            background-color: #2F3C7E;
+            color: white;
+            padding: 25px;
+            width: 240px;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            font-size: 20px;
+            margin: 15px 0;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .sidebar a:hover {
+            color: #ddd;
+        }
+
+        .card-container {
+            margin-left: 280px;
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+
+        .card {
+            background-color: #fff;
+            width: 280px;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .card h3 {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .card p {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .card .btn {
+            background-color: #2196F3;
+        }
+
+        .card .btn:hover {
+            background-color: #1976D2;
+        }
+
+        /* Chatbot Logo */
+        .chatbot-logo {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background-color: #2196F3;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .chatbot-logo:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .chatbot-logo img {
+            width: 35px;
+            height: 35px;
+        }
+        .notification {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #4caf50;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            z-index: 1000;
+        }
+        .notification.error {
+            background-color: #f44336;
+        }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .card-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .auth-forms {
+                width: 80%;
+                padding: 30px;
+            }
+
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                display: flex;
+                justify-content: space-evenly;
+            }
+
+            .dashboard {
+                margin-left: 0;
+                margin-top: 100px;
+            }
+
+            .card-container {
+                margin-left: 0;
+            }
+            .contact {
+            position: relative;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 20px;
+    }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        StreamPath
+    </div>
+
+    <div class="container">
+        <!-- Auth Forms (Login and Signup) -->
+        <div id="authForms" class="auth-forms">
+            <!-- Login Form -->
+            <div id="loginForm" class="form-container">
+                <h2>Login</h2>
+                <input type="email" placeholder="Email" id="loginEmail" class="input-field" />
+                <input type="password" placeholder="Password" id="loginPassword" class="input-field" />
+                <button class="btn" onclick="login()">Login</button>
+                <p>Don't have an account? <a href="javascript:void(0);" onclick="showSignup()">Sign up</a></p>
+            </div>
+
+            <!-- Signup Form -->
+            <div id="signupForm" class="form-container" style="display: none;">
+                <h2>Sign Up</h2>
+                <input type="text" placeholder="Name" id="signupName" class="input-field" />
+                <input type="email" placeholder="Email" id="signupEmail" class="input-field" />
+                <input type="password" placeholder="Password" id="signupPassword" class="input-field" />
+                <button class="btn" onclick="signup()">Sign Up</button>
+                <p>Already have an account? <a href="javascript:void(0);" onclick="showLogin()">Login</a></p>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard" class="dashboard">
+            <div class="sidebar">
+                <a href="feed.html">Feed</a>
+                <hr />
+                <a href="javascript:void(0);" onclick="showSettings()">Settings</a>
+                <hr />  
+                <a href="javascript:void(0);" onclick="showAboutUs()">About Us</a>
+                <hr />
+                <a href="javascript:void(0);" onclick="showContactUs()">Contact us</a>
+                <hr />  
+                <a href="javascript:void(0);" id="feed-btn" onclick="showLogout()">Logout</a>
+                <hr />
+                
+
+            </div>
+
+            <div class="main-content">
+                <h1>Welcome to StreamPath</h1>
+                <div class="card-container">
+                    <div class="card">
+                        <h3>Mentorship Program</h3>
+                        <p>Connect with mentors and get guidance.</p>
+                        <button class="btn"  onclick="showmentorship()">Explore</button>
+                    </div>
+                    <div class="card">
+                        <h3>Mental Health Chatbot</h3>
+                        <p>Talk to our AI chatbot for mental support.</p>
+                        <button class="btn"  onclick="showchatbot()">Chat Now</button>
+                    </div>
+                    <div class="card">
+                        <h3>Healthy Gamification</h3>
+                        <p>Earn badges and rewards for your progress.</p>
+                        <button class="btn" onclick="showgamification()">View Badges</button>
+                    </div>
+                    <div class="card">
+                        <h3>Community</h3>
+                        <p>Connect with others</p>
+                        <button class="btn" onclick= "showcommunity()">Join Now</button>
+                    </div>
+                    <div class="card">
+                        <h3>Post System</h3>
+                        <p>Post Your Thoughts</p>
+                        <button class="btn" id="post-btn">Post Now</button>
+                    </div>
+                </div>
+            </div>
+            <div id="contact" class="contact">
+                <h2>Contact Us</h2>
+                <p>Email: support@mentalhealthbot.com</p>
+                <p>Phone: +1 234 567 890</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Logo -->
+    <div class="chatbot-logo" onclick="openChatbot()">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/chat.png" alt="Chatbot Icon">
+    </div>
+    <div id="notification" class="notification"></div>
+
+    <script>
+        const BASE_URL = "http://localhost:5000/api"; // Configurable base URL
+         function showNotification(message, isError = false) {
+            const notification = document.getElementById("notification");
+            notification.textContent = message;
+            notification.className = isError ? "notification error" : "notification";
+            notification.style.display = "block";
+            setTimeout(() => {
+                notification.style.display = "none";
+            }, 3000);
+        }
+            // Show Login Form
+            function showlogout(){
+                document.getElementById("authForms").style.display = "block";
+                document.getElementById("dashboard").style.display = "none";
+            }
+            function showLogin() {
+                document.getElementById("loginForm").style.display = "block";
+                document.getElementById("signupForm").style.display = "none";
+            }
+        
+
+        // Show Signup Form
+        function showSignup() {
+            document.getElementById("signupForm").style.display = "block";
+            document.getElementById("loginForm").style.display = "none";
+        }
+
+        // Show Dashboard after Login/Signup
+        function showDashboard() {
+            document.getElementById("authForms").style.display = "none";
+            document.getElementById("dashboard").style.display = "block";
+        }
+         // Simulate Login
+         window.onload = function() {
+    const token = sessionStorage.getItem("token");  // Check if token exists in localStorage
+    if (token) {
+        
+        showDashboard();  // If token exists, show the dashboard
+    } else {
+        showLogin();  // Otherwise, show the login page
+    }
+};
+        async function login() {
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
+
+    const response = await fetch(`${BASE_URL}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+        sessionStorage.setItem("token", data.token); // Store JWT
+        showDashboard();
+        showNotification("Login successful!");
+    } else {
+        showNotification(data.message);
+    }
+}
+
+
+        // Simulate SignUp
+        async function signup() {
+    const name = document.getElementById("signupName").value;
+    const email = document.getElementById("signupEmail").value;
+    const password = document.getElementById("signupPassword").value;
+
+    const response = await fetch(`${BASE_URL}/auth/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password })
+    });
+
+    const data = await response.json();
+    if (response.ok) {
+        showNotification("Signup successful! Please login.");
+        showLogin();
+    } else {
+        showNotification(data.message);
+    }
+}
+
+        // Open Chatbot
+        function openChatbot() {
+            showNotification("Chatbot is opening...");
+        }
+        function showgamification() {
+            showNotification("opening Gamification page");
+        }   
+        function showchatbot() {
+            showNotification("opening Chatbot page");
+        }
+        function showmentorship() {
+            showNotification("opening Mentorship page");
+        }
+        function showLogout() { 
+            showNotification("Logging out...");
+            sessionStorage.removeItem("token");
+            showlogout(); 
+        }
+        function showcommunity() {
+            showNotification("opening Community page");
+        }
+        document.querySelector("#post-btn").addEventListener("click", function() {
+        window.location.href = "post.html";
+    });
+        
+
+
+
+        // Show Settings
+        function showSettings() {
+            showNotification("Settings page");
+        }
+
+        // Show About Us
+        function showAboutUs() {
+            showNotification("About Us page");
+        }
+
+        function showContactUs() {
+            showNotification("Contact Us page");
+        }
+       
+        showLogin(); // Show login form by default
+    </script>
+</body>
+
+</html>
