@@ -374,9 +374,17 @@
     </div>
 
     <!-- Chatbot Logo -->
-    <div class="chatbot-logo" onclick="openChatbot()">
+    <!-- <div class="chatbot-logo" onclick="toggleChatbot()">
         <img src="https://img.icons8.com/ios-filled/50/ffffff/chat.png" alt="Chatbot Icon">
-    </div>
+    </div> -->
+    <df-messenger
+    intent="WELCOME"
+    chat-title="MentalHealthBot"
+    agent-id="00129ed0-0f53-40f1-997e-b004a8bad81a"
+    language-code="en">
+    </df-messenger>
+
+
     <div id="notification" class="notification"></div>
 
     <script>
@@ -388,7 +396,7 @@
             notification.style.display = "block";
             setTimeout(() => {
                 notification.style.display = "none";
-            }, 3000);
+            }, 2000);
         }
             // Show Login Form
             function showlogout(){
@@ -465,9 +473,11 @@
 }
 
         // Open Chatbot
-        function openChatbot() {
-            showNotification("Chatbot is opening...");
-        }
+        // function toggleChatbot() {
+            
+        //     const chatbot = document.querySelector("df-messenger");
+        //     chatbot.style.display = chatbot.style.display === "none" ? "block" : "none";
+        // }
         function showgamification() {
             showNotification("opening Gamification page");
         }   
@@ -507,7 +517,17 @@
         }
        
         showLogin(); // Show login form by default
+
+
     </script>
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <df-messenger
+      intent="WELCOME"
+      chat-title="brainify"
+      agent-id="00129ed0-0f53-40f1-997e-b004a8bad81a"
+      language-code="en"
+    ></df-messenger>
+
 </body>
 
 </html>
