@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamPath</title>
+    <title>WellSync</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* Reset and Base Styles */
@@ -23,7 +23,7 @@
         body {
             background: #f5f5f5;
             
-            background: url(project.jpg) no-repeat center center fixed;
+            background: url(project1.jpg) no-repeat center center fixed;
             background-size: cover;
 }
 
@@ -39,9 +39,9 @@
         /* Navbar */
         .navbar {
             width: 100%;
-            background-color: #2F3C7E;
+            /* background-color: #2F3C7E; */
             padding: 20px;
-            color: #fff;
+            color: #000000;
             text-align: center;
             font-size: 28px;
             font-weight: bold;
@@ -137,8 +137,8 @@
         }
 
         .sidebar {
-            background-color: #2F3C7E;
-            color: white;
+            /* background-color: #2F3C7E; */
+            color: #000000;
             padding: 25px;
             width: 240px;
             height: 100%;
@@ -152,7 +152,7 @@
         }
 
         .sidebar a {
-            color: white;
+            color: #000000;
             text-decoration: none;
             font-size: 20px;
             margin: 15px 0;
@@ -161,7 +161,7 @@
         }
 
         .sidebar a:hover {
-            color: #ddd;
+            color: #ffffff;
         }
 
         .card-container {
@@ -292,7 +292,7 @@
 
     <!-- Navbar -->
     <div class="navbar">
-        StreamPath
+        WELLSYNC
     </div>
 
     <div class="container">
@@ -336,7 +336,7 @@
             </div>
 
             <div class="main-content">
-                <h1>Welcome to StreamPath</h1>
+                <!-- <h1>Welcome to WellSync</h1> -->
                 <div class="card-container">
                     <div class="card">
                         <h3>Mentorship Program</h3>
@@ -346,7 +346,7 @@
                     <div class="card">
                         <h3>Mental Health Chatbot</h3>
                         <p>Talk to our AI chatbot for mental support.</p>
-                        <button class="btn"  onclick="showchatbot()">Chat Now</button>
+                        <button id="chatbtn" class="btn">Chat Now</button>
                     </div>
                     <div class="card">
                         <h3>Healthy Gamification</h3>
@@ -354,9 +354,9 @@
                         <button class="btn" onclick="showgamification()">View Badges</button>
                     </div>
                     <div class="card">
-                        <h3>Community</h3>
-                        <p>Connect with others</p>
-                        <button class="btn" onclick= "showcommunity()">Join Now</button>
+                        <h3>MUSic </h3>
+                        <p>Sound Mind Lives In Sound Body</p>
+                        <button class="btn" onclick= "showmusic()">Play Now</button>
                     </div>
                     <div class="card">
                         <h3>Post System</h3>
@@ -373,17 +373,7 @@
         </div>
     </div>
 
-    <!-- Chatbot Logo -->
-    <!-- <div class="chatbot-logo" onclick="toggleChatbot()">
-        <img src="https://img.icons8.com/ios-filled/50/ffffff/chat.png" alt="Chatbot Icon">
-    </div> -->
-    <df-messenger
-    intent="WELCOME"
-    chat-title="MentalHealthBot"
-    agent-id="00129ed0-0f53-40f1-997e-b004a8bad81a"
-    language-code="en">
-    </df-messenger>
-
+   
 
     <div id="notification" class="notification"></div>
 
@@ -472,12 +462,7 @@
     }
 }
 
-        // Open Chatbot
-        // function toggleChatbot() {
-            
-        //     const chatbot = document.querySelector("df-messenger");
-        //     chatbot.style.display = chatbot.style.display === "none" ? "block" : "none";
-        // }
+        
         function showgamification() {
             showNotification("opening Gamification page");
         }   
@@ -493,12 +478,14 @@
             showlogout(); 
         }
         function showcommunity() {
-            showNotification("opening Community page");
+            showNotification("opening Music page");
         }
         document.querySelector("#post-btn").addEventListener("click", function() {
         window.location.href = "post.html";
     });
-        
+    document.querySelector("#chatbtn").addEventListener("click", function() {
+        window.location.href = "chatbot.html";
+    });
 
 
 
@@ -520,13 +507,7 @@
 
 
     </script>
-    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
-    <df-messenger
-      intent="WELCOME"
-      chat-title="brainify"
-      agent-id="00129ed0-0f53-40f1-997e-b004a8bad81a"
-      language-code="en"
-    ></df-messenger>
+    
 
     
 </body>

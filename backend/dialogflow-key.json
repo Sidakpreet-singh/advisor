@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "brainify-aily",
+  "private_key_id": "5269cde08baf99e20959901c631d19e9138c285f",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCaRofcPU2VgCBK\nGYX9U/wyILMcZG7U6BGwoz109B4TOfYh0BbdTPaniB3vNHstzplhGEAJIhaYkjxK\njkBq7HiTFSrsdYFhLP7BvD2+L1cqkBFCUk+YRFncw4ez5Me+eee2oqZHXnFPjPHD\nJOuRcij5xsXAYjoTmKVh3ZeN1Cw7xk+zo0Vx0Y1qvUE+5AlJFoHlJtyflWdpWMWz\nh7D1+EniOj+iiiBLip5/Iag9p7zPIHoCelnN2HInqLLmgUDtOvYA3gNWcToPyU1Q\n3tY2i3DpEhJoVM6uemnEbLUvT8gGtH2ZXBiZEUFt4oaA4BlHuYrqtg3lrHwdD6AV\neT7rE0qFAgMBAAECggEAFyA7fWgzGRX7wR/SVgcg5uK/9qGXe5LOFAxkSgPN/lPR\n8X+f7cx7rOFam2DilhtCIqvf7X6OpJBHOWXZgi2wZVvm80sp+cck6SWum7O8/URb\nUfXEuK6GSfGFhhHlX0gm09nN0yT1F1epZfdC2KqkOczyF8ShsA5RvDnbXgdQGiWE\nZWZdtZCcsC37Kn+zGb9L9TtGTOWRh8XCrCilUPwtgRqHAGY5yR8XxTlbUxuaIkGV\n46TFYSYbxO6YRRacD2eBdYkiJIBhiv5Ru2JDD1NU7IQKnVpLXenQQ59vDmQKWdIk\nvXBs3l8bq+UAlHzFwHsaoQmhKurvD7VOkJ7EkvQMgQKBgQDQ4i/L/vQgnWa0Qyui\nOokkwDBQNa9reklumga4hFQmJZXGGI9bYQcV3bud9L5E3mvY3Y/eCXGStjJaPvTh\nrTJmq99S9cqlWMkDMleNLbo6y4q5o1TB0+zDg2Frdi2lbl+/KmBSrLCa1oulYc36\nphv54qDqhDIKFxzjEyfqNWKuOwKBgQC9Ewv+JBt9dYDIYmu/nlVYcKhH0qhRebXX\n4ixLKeONtcMd8d6RplJP0Hu055W8X7kA51knZDTrqeVTI2h8R3IF0czfjZ1AMmsc\na47UqtbwEt8ih//Sr3lEVyZRs6HoR4lQyiiIqjBw77ZzOCfzV2DSLKmCvbkknMQW\nFFDHUqaePwKBgB1klqE4ARZNz9Px18P+RKodOS8wPrz6+jZMCkIQrN6pT0gO0K1l\nG+Ah0XLKq7N5MOfVVZdC8O5aIP+9+CuBeaQk70n3OErIEZEXlmZRVvFLDvxMVXLo\n5VoltKGwgX/T5jk6N0+q6TcAlanx91Ab67fgAhC+BWSSGAiD+4vjcz1dAoGAermh\nQC3Zth6OIANaYv938Db3097VqETzFpTVIVioPnRrmMVFLY8iwHHXyj3DwIj1gbOo\n99ugShN2KffCu2B4j3R1oem+10uioMjj5gCaESx+r2BNWkjR0t0qnz+U6Tt90vXV\nR5gIZ1YBPFqH+/iMfP/Ga3mQckZbNOWs5SQtyGsCgYEAjl7Mn1wyPTKA2y8/xtqp\nTK9weXAxXs+JWps0oV+GAOCPZEkZ2BNAVqYvs+HPnNJ2HJPhAcR1jtP86sy+2gcb\n5i/yI6nhZ4nt6JavRTalfr+dk0Z+aCKgKBkmCE59oWpxlo1SyMcpwknXiiK5FWsp\nIqxC8+GiCqc6nxzka9neiGs=\n-----END PRIVATE KEY-----\n",
+  "client_email": "dialogflow-bot@brainify-aily.iam.gserviceaccount.com",
+  "client_id": "101053362561580794394",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/dialogflow-bot%40brainify-aily.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
