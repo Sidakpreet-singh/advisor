@@ -38,9 +38,10 @@
             flex-direction: column;
             align-items: center;
             padding: 20px;
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
         }
+
 
         /* Individual Post */
         .post {
@@ -65,7 +66,10 @@
             font-size: 1rem;
             margin-bottom: 15px;
             color: #333;
+            white-space: pre-wrap;
         }
+
+
 
         .post-item {
             background-color: #fff;
@@ -82,7 +86,9 @@
             margin-top: 10px;
             border-radius: 8px;
             border: 1px solid #ddd;
-            /* Optional: Add border for clarity */
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .actions {
@@ -97,23 +103,33 @@
             cursor: pointer;
             font-size: 1rem;
             transition: background-color 0.3s;
+       
+
         }
 
         .like-btn {
-            background-color: #4CAF50;
+            background-color: #277f2a;
             color: white;
         }
 
         .like-btn:hover {
-            background-color: #45a049;
+            background-color: #47b14c;
         }
 
-        .unlike-btn {
-            background-color: #f44336;
+        .share-btn {
+            background-color: #081152;
             color: white;
         }
 
-        .unlike-btn:hover {
+        .share-btn:hover {
+            background-color: #7335e5;
+        }
+        .comment-btn {
+            background-color:#7f3cfd;
+            color: white;
+        }
+
+        .comment-btn:hover {
             background-color: #e53935;
         }
 
@@ -189,7 +205,8 @@
                       ${imageUrl ? `<img src='${imageUrl}' alt="Post Image" style="max-width: 100%; height: auto;">` : ''}
     <div class="actions">
         <button class="like-btn" onclick="likePost('${post._id}')">Like</button>
-        <button class="unlike-btn" onclick="unlikePost('${post._id}')">Unlike</button>
+        <button class="comment-btn" onclick="comment('${post._id}')">Comment</button>
+        <button class="share-btn" onclick="share('${post._id}')">Share</button>
     </div>
 `;
 
@@ -229,22 +246,7 @@
         }
 
         // Function to handle unliking a post
-        async function unlikePost(postId) {
-            try {
-                const response = await fetch(`http://localhost:5000/unlike/${postId}`, {
-                    method: 'POST',
-                });
-
-                if (response.ok) {
-                    showNotification('Post unliked!');
-                    loadFeed();  // Reload feed after unliking the post
-                } else {
-                    showNotification('Error unliking post');
-                }
-            } catch (error) {
-                showNotification('Error unliking post');
-            }
-        }
+        
     </script>
 </body>
 
