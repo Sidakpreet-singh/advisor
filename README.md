@@ -56,7 +56,7 @@ Create a `.env` file in the `backend` folder with the following:
 ```env
 PORT=5000
 MONGODB_URI=your_mongodb_connection_string
-GEMINI_API_KEY=your_gemini_api_key
+API_KEY=your_gemini_api_key
 ```
 
 ### 4. Start the backend server
