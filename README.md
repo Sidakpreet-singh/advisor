@@ -1,6 +1,6 @@
 # WellSync - AI-powered Wellness Advisor Platform
 
-**WellSync** is a full-stack web platform that connects users with wellness advisors. It integrates Google's Gemini API to provide intelligent, conversational assistance for mental and physical wellness support.
+**WellSync** is a full-stack web platform that connects users with wellness advisors. It provide a chatbot which is intelligent, conversational assistance for mental and physical wellness support.
 
 ## Features
 - Appointment booking and management
@@ -14,7 +14,7 @@
 - **Frontend**: HTML, CSS, JavaScript
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB
-- **Chatbot**: Gemini API (Google AI)
+
 - **Environment Variables**: dotenv
 - **HTTP Client**: Axios
 
