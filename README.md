@@ -46,7 +46,7 @@ cd advisor
 
 ```bash
 cd backend
-npm install
+npm install -r requirements.txt
 ```
 
 ### 3. Configure environment variables
