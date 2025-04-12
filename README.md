@@ -71,10 +71,3 @@ npm start
 
 Open `frontend/index.html` directly in your browser or use a Live Server extension.
 
-## License
-
-This project is licensed under the MIT License.
-
----
-
-*Developed with passion by Sidakpreet Singh.*
