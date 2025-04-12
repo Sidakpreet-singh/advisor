@@ -3,170 +3,112 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 const postRoutes = require('./routes/posts');
-const Post = require('./models/Posts'); // Import the Post model
-const authRoutes = require('./routes/auth'); // Assuming you have a separate file for post routes
+const Post = require('./models/Posts');
+const authRoutes = require('./routes/auth');
+const { GoogleGenerativeAI } = require('@google/generative-ai'); // Gemini SDK
+const bodyParser = require('body-parser');
+const path = require('path');
+const Conversation = require('./models/conversation'); // New import for chat memory
+
 const app = express();
 const PORT = process.env.PORT || 5000;
-const path = require('path');
-const bodyParser = require('body-parser');
-const dialogflow = require('@google-cloud/dialogflow');
-const fs = require('fs');
-
-
 
 // Middleware
-const SESSION_ID = "123456";  // Unique session ID for each user
-
+const SESSION_ID = "123456"; // Static session ID for now
 app.use(cors());
 app.use(bodyParser.json());
-async function detectIntent(message, sessionId) {
-    const CREDENTIALS = JSON.parse(fs.readFileSync(path.join(__dirname, "dialogflow-key.json")));
-    const PROJECT_ID = CREDENTIALS.project_id;
-    
-    const sessionClient = new dialogflow.SessionsClient({ credentials: CREDENTIALS });
-    
-    const sessionPath = `projects/${PROJECT_ID}/agent/sessions/${sessionId}`;
-    
-    const request = {
-        session: sessionPath,
-        queryInput: {
-            text: {
-                text: message,
-                languageCode: "en",
-            },
-        },
-    };
-    
-    try {
-        const responses = await sessionClient.detectIntent(request);
-        return responses[0].queryResult.fulfillmentText;
-    } catch (error) {
-        console.error("Dialogflow API Error:", error);
-        throw new Error("Error processing message");
-    }
-}
 
+// Initialize Gemini API client
+const apiKey = process.env.API_KEY;
+const genAI = new GoogleGenerativeAI(apiKey);
 
-
-
-// Load the service account key JSON file
-const CREDENTIALS = JSON.parse(fs.readFileSync(path.join(__dirname, "dialogflow-key.json")));
-
-
-const sessionClient = new dialogflow.SessionsClient({
-    credentials: CREDENTIALS,
-});
-
-const PROJECT_ID = CREDENTIALS.project_id;
-
-// Handle user messages
-app.post('/send-message', async (req, res) => {
-    const userMessage = req.body.message;
-
-    const sessionPath = `projects/${PROJECT_ID}/agent/sessions/${SESSION_ID}`;
-
-
-    const request = {
-        session: sessionPath,
-        queryInput: {
-            text: {
-                text: userMessage,
-                languageCode: 'en',  // Change if needed
-            },
-        },
-    };
-
-    try {
-        const responses = await sessionClient.detectIntent(request);
-        const result = responses[0].queryResult;
-        res.json({ reply: result.fulfillmentText });
-    } catch (error) {
-        console.error("Dialogflow API Error:", error);
-        res.status(500).send("Error processing message");
-    }
-});
-
+// Route to handle conversation with context
 app.post("/chatbot", async (req, res) => {
     const { message } = req.body;
-    const sessionId = "123456"; // Static session ID
-    
+
     try {
-        const responseText = await detectIntent(message, sessionId);
-        res.json({ reply: responseText });
+        // Fetch conversation history for this session
+        const previousMessages = await Conversation.find({ sessionId: SESSION_ID }).sort({ timestamp: 1 });
+
+        // Convert to Gemini format
+        const chatHistory = previousMessages.map(msg => [
+            { role: "user", parts: [{ text: msg.userMessage }] },
+            { role: "model", parts: [{ text: msg.botReply }] }
+        ]).flat();
+
+        // Start chat with history
+        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash-8b' });
+        const chat = model.startChat({ history: chatHistory });
+
+        const result = await chat.sendMessage(message);
+        const botReply = result.response.text();
+
+        // Clean and structure the response with better formatting
+        const structuredReply = formatResponse(botReply);
+
+        // Save new message to DB
+        await Conversation.create({
+            sessionId: SESSION_ID,
+            userMessage: message,
+            botReply: structuredReply
+        });
+
+        res.json({ reply: structuredReply });
+
     } catch (error) {
-        console.error("Error:", error);
-        res.status(500).json({ error: "Dialogflow request failed." });
+        console.error("Gemini API Error:", error);
+        res.status(500).json({ error: "Gemini API request failed." });
     }
 });
 
+// Function to clean and structure the response text with proper spacing
+function formatResponse(responseText) {
+    // Ensure there is a bullet point for each key idea or sentence
+    if (responseText) {
+        // Split the text into sentences and add bullet points to each
+        responseText = responseText.split('. ').map(line => `<li>${line.trim()}.</li>`).join('');
+        
+        // Wrap the content in a list to make it appear cleaner
+        responseText = `<ul>${responseText}</ul>`;
+        
+        // Optionally, add some headings or introductory text
+        responseText = `<p><strong>Here is your answer:</strong></p>` + responseText;
+    }
 
-app.use(express.json());
+    return responseText;
+}
 
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI)
-    .then(() => {
-        console.log("Connected to MongoDB");
-    })
-    .catch(err => {
-        console.log("Failed to connect to MongoDB", err);
-    });
+// Route to get chat history
+app.get("/chat-history", async (req, res) => {
+    try {
+        const history = await Conversation.find({ sessionId: SESSION_ID }).sort({ timestamp: 1 });
+        res.json({ history });
+    } catch (error) {
+        res.status(500).json({ message: 'Error fetching chat history' });
+    }
+});
 
-// Routes
+// Other routes
 app.use('/api/posts', postRoutes);
 app.use('/api/auth', authRoutes);
 
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log("Connected to MongoDB"))
+    .catch(err => console.log("Failed to connect to MongoDB", err));
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
-
-
-app.get('/api', (req, res) => {
-    res.send('API is working');
-});
-
-// Fetch posts from the database
+// Fetch posts from DB
 app.get('/posts', async (req, res) => {
     try {
-        const posts = await Post.find().populate('userId');  // Fetch posts from the database
+        const posts = await Post.find().populate('userId');
         res.json({ posts });
     } catch (error) {
         res.status(500).json({ message: 'Error fetching posts' });
     }
 });
-``
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-
-// Like a post
-app.post('/like/:id', async (req, res) => {
-    try {
-        const post = await Post.findById(req.params.id);
-        if (post) {
-            post.likes += 1;  // Increase the like count
-            await post.save();
-            res.json({ message: 'Post liked successfully' });
-        } else {
-            res.status(404).json({ message: 'Post not found' });
-        }
-    } catch (error) {
-        res.status(500).json({ message: 'Error liking post' });
-    }
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
-
-// Unlike a post
-app.post('/unlike/:id', async (req, res) => {
-    try {
-        const post = await Post.findById(req.params.id);
-        if (post) {
-            post.likes -= 1;  // Decrease the like count
-            await post.save();
-            res.json({ message: 'Post unliked successfully' });
-        } else {
-            res.status(404).json({ message: 'Post not found' });
-        }
-    } catch (error) {
-        res.status(500).json({ message: 'Error unliking post' });
-    }
-});
-

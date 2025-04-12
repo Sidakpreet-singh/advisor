@@ -13,7 +13,9 @@
   "type": "commonjs",
   "dependencies": {
     "@google-cloud/dialogflow": "^6.14.0",
+    "@google/generative-ai": "^0.24.0",
     "axios": "^1.7.9",
+    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",

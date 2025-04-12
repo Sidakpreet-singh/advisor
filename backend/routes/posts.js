@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const fs = require("fs");
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 const path = require("path");
 const { authenticate } = require("../middleware/authenticate"); // Middleware for authentication
 const jwt = require("jsonwebtoken"); // Import the jwt module
@@ -58,8 +58,8 @@ router.post("/create", authenticate, upload.single("image"), async (req, res) =>
         // Correctly construct the image URL
         const imageUrl = `/uploads/${req.file.filename}`;
 
-        console.log("Uploaded Image Path:", imageUrl); // Debugging
-        console.log("User ID:", userId);
+        // console.log("Uploaded Image Path:", imageUrl); // Debugging
+        // console.log("User ID:", userId);
 
         // Create a new post in the database
         const newPost = new Post({
@@ -78,25 +78,25 @@ router.post("/create", authenticate, upload.single("image"), async (req, res) =>
 });
 
 // Example login route
-router.post("/login", async (req, res) => {
-    try {
-        const { username, password } = req.body;
-        const user = await User.findOne({ username });
+// router.post("/login", async (req, res) => {
+//     try {
+//         const { username, password } = req.body;
+//         const user = await User.findOne({ username });
 
-        if (!user) return res.status(400).json({ message: "User not found" });
+//         if (!user) return res.status(400).json({ message: "User not found" });
 
-        // Verify password (assuming bcrypt is used)
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
+//         // Verify password (assuming bcrypt is used)
+//         const isMatch = await bcrypt.compare(password, user.password);
+//         if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
 
-        // Generate JWT
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-        return res.json({ token }); // Send the token to the client
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Server error" });
-    }
-});
+//         // Generate JWT
+//         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+//         return res.json({ token }); // Send the token to the client
+//     } catch (error) {
+//         console.error(error);
+//         return res.status(500).json({ message: "Server error" });
+//     }
+// });
 
 // Get all posts
 router.get("/posts", async (req, res) => {

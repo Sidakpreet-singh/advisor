@@ -52,6 +52,7 @@
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             text-align: left;
+
         }
 
         /* User Name */
@@ -103,7 +104,7 @@
             cursor: pointer;
             font-size: 1rem;
             transition: background-color 0.3s;
-       
+
 
         }
 
@@ -122,10 +123,11 @@
         }
 
         .share-btn:hover {
-            background-color: #7335e5;
+            background-color: #e53935;
         }
+
         .comment-btn {
-            background-color:#7f3cfd;
+            background-color: #7f3cfd;
             color: white;
         }
 
@@ -200,9 +202,16 @@
 
 
                         postElement.innerHTML = `
-                    <h3>${post.userId.name}</h3>
-                    <p>${post.content}</p>
-                      ${imageUrl ? `<img src='${imageUrl}' alt="Post Image" style="max-width: 100%; height: auto;">` : ''}
+                      
+                    
+                    <h3 style="color:#1976D2; font-weight: bold; font-size: 28px;">${post.userId.name}</h3>
+                  
+                    <hr>
+                    <br>
+                    <br>
+                    <pre style="
+                    overflow: auto; word-wrap: break-word; font-family: sanserif;">${post.content}</pre>
+                      ${imageUrl ? `<img src='${imageUrl}' alt="Post Image" style="max-width: 100%; height: 500px;">` : ''}
     <div class="actions">
         <button class="like-btn" onclick="likePost('${post._id}')">Like</button>
         <button class="comment-btn" onclick="comment('${post._id}')">Comment</button>
@@ -246,7 +255,7 @@
         }
 
         // Function to handle unliking a post
-        
+
     </script>
 </body>
 
