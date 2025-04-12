@@ -3,20 +3,18 @@
 **WellSync** is a full-stack web platform that connects users with wellness advisors. It integrates Google's Gemini API to provide intelligent, conversational assistance for mental and physical wellness support.
 
 ## Features
-
-- User and advisor login system
-- Gemini AI-powered assistant for wellness advice
 - Appointment booking and management
 - Clean frontend with HTML, CSS, and JavaScript
 - RESTful API built with Node.js and Express
 - MongoDB for storing user and appointment data
+- User and advisor login system
 
 ## Tech Stack
 
 - **Frontend**: HTML, CSS, JavaScript
 - **Backend**: Node.js, Express.js
 - **Database**: MongoDB
-- **AI**: Gemini API (Google AI)
+- **Chatbot**: Gemini API (Google AI)
 - **Environment Variables**: dotenv
 - **HTTP Client**: Axios
 
@@ -64,7 +62,7 @@ GEMINI_API_KEY=your_gemini_api_key
 ### 4. Start the backend server
 
 ```bash
-npm start
+npm server.js
 ```
 
 ### 5. Launch the frontend
