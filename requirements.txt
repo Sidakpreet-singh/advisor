@@ -1,5 +1,0 @@
-dotenv
-cors
-express
-moongose
-google-generativeai
