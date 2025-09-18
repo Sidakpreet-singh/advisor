@@ -44,8 +44,9 @@
         }
 
         .post-box {
+            margin-top:40px;
             background: white;
-            padding: 20px;
+            padding: 40px;
             width: 50%;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -74,7 +75,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            background-color: #2F3C7E;
+            background-color: #2196F3;
             color: white;
             padding: 8px 12px;
             border-radius: 5px;
@@ -83,36 +84,36 @@
         }
 
         .file-input label:hover {
-            background-color: #1e2a5a;
+            background-color: #2196F3;
         }
 
         .file-input input {
             display: none;
         }
 
-        .image-preview {
+         .image-preview {
             margin-top: 10px;
             max-width: 100%;
             display: none;
             border-radius: 5px;
-        }
+        } 
 
-        .post-btn {
+         .post-btn {
             width: 100%;
             padding: 10px;
             margin-top: 10px;
-            background-color: #2F3C7E;
+            background-color: #2196F3;
             color: white;
             font-size: 18px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-        }
+        } 
 
-        .post-btn:hover {
+         .post-btn:hover {
             background-color: #1e2a5a;
-        }
+        } 
 
         .posts-list {
             margin-top: 20px;
@@ -133,21 +134,29 @@
             border-radius: 5px;
             margin-top: 10px;
         }
+        p{
+            font-size: 40px;
+            font-weight: 500;
+            margin-bottom:10px;
+        }
+        
     </style>
 </head>
 <body>
 <!-- <div class="cont"> -->
  <div class="post-box">
  
-    <h2>Create a Post</h2>
+    <p>Create a Post</p>
     <form id="postForm" enctype="multipart/form-data"> <!-- Add this line -->
         <textarea id="postContent" placeholder="Write your thoughts..."></textarea>
         <div class="file-input">
             <label for="postImage">📷 Add Image</label>
             <input type="file" id="postImage" accept="image/*" onchange="previewImage()">
         </div>
+       
         <img id="imagePreview" class="image-preview">
         <button type="button" class="post-btn" onclick="submitPost()">Post Now</button>
+       
     </form>
 
  
