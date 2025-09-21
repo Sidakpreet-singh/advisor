@@ -1,263 +1,391 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Feed</title>
     <style>
-        /* General Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+      /* General Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f0f2f5;
+        color: #333;
+        line-height: 1.6;
+        display: flex;
+      }
+      .sidebar {
+        width: 250px;
+        background: linear-gradient(180deg, #1e293b, #0f172a);
+        color: white;
+        height: 100vh;
+        padding: 20px;
+        position: fixed;
+        left: 0;
+        top: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .sidebar h2 {
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        color: #f7fafa;
+      }
+
+      .sidebar nav {
+        flex-grow: 1;
+      }
+
+      .sidebar nav a {
+        display: block;
+        color: #e2e8f0;
+        text-decoration: none;
+        padding: 12px 0;
+        font-size: 1rem;
+        transition: color 0.3s ease;
+      }
+
+      .sidebar nav a:hover {
+        color: #38bdf8;
+      }
+
+      .create-post-btn {
+        padding: 12px;
+        border: none;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #4f46e5, #06b6d4);
+        color: white;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.2s ease;
+      }
+
+      .create-post-btn:hover {
+        background: linear-gradient(135deg, #4338ca, #0891b2);
+        transform: scale(1.05);
+      }
+
+      /* Sidebar
+    .sidebar {
+      width: 250px;
+      background: linear-gradient(180deg, #1e293b, #0f172a);
+      color: white;
+      height: 100vh;
+      padding: 20px;
+      position: fixed;
+      left: 0;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .sidebar h2 {
+      margin-bottom: 20px;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    .sidebar ul {
+      list-style: none;
+    }
+
+    .sidebar ul li {
+      margin: 15px 0;
+    }
+
+    .sidebar ul li a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.1rem;
+      transition: color 0.3s;
+    }
+
+    .sidebar ul li a:hover {
+      color: #38bdf8;
+    } */
+
+      /* Feed Container */
+      .feed-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* center posts horizontally */
+        padding: 20px;
+        margin-left: 250px; /* prevent overlap with sidebar */
+      }
+
+      /* Instagram-like Post */
+      .post-item {
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        margin-bottom: 25px;
+        width: 90%; /* slightly smaller than container */
+        max-width: 700px; /* keeps posts readable */
+        overflow: hidden;
+        transition: transform 0.2s ease, box-shadow 0.3s ease;
+      }
+
+      .post-item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+      }
+
+      /* Post Header */
+      .post-header {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        border-bottom: 1px solid #eee;
+      }
+
+      .post-header .user-icon {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #06b6d4, #4f46e5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-weight: bold;
+        margin-right: 12px;
+        font-size: 1rem;
+      }
+
+      .post-header h3 {
+        font-size: 1.2rem;
+        color: #1976d2;
+        font-weight: bold;
+      }
+
+      /* Post Content */
+      .post-content {
+        padding: 20px;
+        font-size: 1.1rem;
+        color: #444;
+        white-space: pre-wrap;
+      }
+
+      /* Post Image */
+      .post-item img {
+        max-width: 100%;
+        height: auto;
+        max-height: 500px;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* Actions Section */
+      .actions {
+        display: flex;
+        justify-content: space-around;
+        padding: 15px 0;
+        border-top: 1px solid #eee;
+        background: #fafafa;
+      }
+
+      button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      button:hover {
+        transform: scale(1.05);
+      }
+
+      .like-btn {
+        background-color: #6366f1;
+        color: white;
+      }
+
+      .like-btn:hover {
+        background-color: #4f46e5;
+      }
+
+      .comment-btn {
+        background-color: #6366f1;
+        color: white;
+      }
+
+      .comment-btn:hover {
+        background-color: #4f46e5;
+      }
+
+      .share-btn {
+        background-color: #6366f1;
+        color: white;
+      }
+
+      .share-btn:hover {
+        background-color: #4f46e5;
+      }
+
+      /* Notification Styling */
+      .notification {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #4caf50;
+        color: white;
+        padding: 12px 24px;
+        border-radius: 10px;
+        display: none;
+        font-size: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        animation: fadeInOut 3s ease forwards;
+      }
+
+      @keyframes fadeInOut {
+        0% {
+          opacity: 0;
+          transform: translateX(-50%) translateY(20px);
         }
-
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            line-height: 1.6;
+        10% {
+          opacity: 1;
+          transform: translateX(-50%) translateY(0);
         }
-
-        /* Header Styling */
-        header {
-            text-align: center;
-            padding: 20px;
-            background-color: #1976D2;
-            color: white;
+        90% {
+          opacity: 1;
         }
-
-        h1 {
-            font-size: 2rem;
+        100% {
+          opacity: 0;
+          transform: translateX(-50%) translateY(20px);
         }
-
-        /* Feed Container */
-        .feed-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-
-        /* Individual Post */
-        .post {
-            background-color: white;
-            padding: 15px;
-            margin: 10px 0;
-            width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            text-align: left;
-
-        }
-
-        /* User Name */
-        .post h3 {
-            font-size: 1.2rem;
-            color: #555;
-            margin-bottom: 10px;
-        }
-
-        /* Post Content */
-        .post p {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: #333;
-            white-space: pre-wrap;
-
-        }
-
-
-
-        .post-item {
-            background-color: #fff;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            width: 100%;
-        }
-
-        .post-item img {
-            max-width: 100%;
-            height: auto;
-            margin-top: 10px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .actions {
-            margin-top: 10px;
-        }
-
-        /* Like and Unlike Buttons */
-        button {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background-color 0.3s;
-
-
-        }
-
-        .like-btn {
-            background-color: #277f2a;
-            color: white;
-        }
-
-        .like-btn:hover {
-            background-color: #47b14c;
-        }
-
-        .share-btn {
-            background-color: #081152;
-            color: white;
-        }
-
-        .share-btn:hover {
-            background-color: #e53935;
-        }
-
-        .comment-btn {
-            background-color: #7f3cfd;
-            color: white;
-        }
-
-        .comment-btn:hover {
-            background-color: #e53935;
-        }
-
-        /* Notification Styling */
-        .notification {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            display: none;
-            font-size: 1rem;
-        }
-
-        .notification.show {
-            display: block;
-        }
+      }
     </style>
-</head>
+  </head>
 
-<body>
-    <header>
-        <h1>Welcome to the Feed</h1>
-    </header>
+  <body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div>
+        <h2>HealthFeed</h2>
+        <nav>
+          <a href="index.html">🏠 Home</a>
+          <a href="#">📝 My Posts</a>
+          <a href="#">💡 Health Tips</a>
+          <a href="#">⚙ Settings</a>
+        </nav>
+      </div>
+      <button class="create-post-btn" onclick="window.location.href='post.html'">➕ Create Post</button>
+    </div>
+    <!-- Sidebar -->
+    <!-- <div class="sidebar">
+    <div>
+      <h2>Menu</h2>
+      <ul>
+        <li><a href="#">➕ Add Post</a></li>
+        <li><a href="#">📌 Categories</a></li>
+        <li><a href="#">⭐ Highlights</a></li>
+      </ul>
+    </div>
+    <div>
+      <p style="font-size: 0.9rem; text-align: center;">© 2025 MyFeed</p>
+    </div>
+  </div> -->
 
+    <!-- Feed -->
     <div id="feedContainer" class="feed-container">
-        <!-- Posts will be dynamically added here -->
+      <!-- Posts will be dynamically added here -->
     </div>
 
     <div id="notification" class="notification"></div>
 
     <script>
+  // Function to show notifications
+  function showNotification(message, isError = false) {
+    const notification = document.getElementById("notification");
+    notification.textContent = message;
+    notification.className = isError ? "notification error" : "notification";
+    notification.style.display = "block";
+    setTimeout(() => {
+      notification.style.display = "none";
+    }, 3000);
+  }
 
-        // Function to show notifications
-        function showNotification(message, isError = false) {
-            const notification = document.getElementById("notification");
-            notification.textContent = message;
-            notification.className = isError ? "notification error" : "notification";
-            notification.style.display = "block";
-            setTimeout(() => {
-                notification.style.display = "none";
-            }, 3000);
-        }
-        // Function to fetch and display posts in the Feed
-        async function loadFeed() {
-            try {
-                const response = await fetch('http://localhost:5000/posts');  // Fetch posts from backend
-                const data = await response.json();
+  // Function to fetch and display posts in the Feed
+  async function loadFeed() {
+    try {
+      const response = await fetch('http://localhost:5000/posts');  
+      const data = await response.json();
 
-                if (response.ok) {
-                    const posts = data.posts;
-                    const feedContainer = document.getElementById('feedContainer');
-                    feedContainer.innerHTML = '';  // Clear existing feed content
+      if (response.ok) {
+        const posts = data.posts;
+        const feedContainer = document.getElementById('feedContainer');
+        feedContainer.innerHTML = '';  
 
-                    // Loop through the posts and create HTML elements
-                    posts.forEach(post => {
-                        console.log("Post Image URL:", post.image);
+        posts.forEach(post => {
+          const imageUrl = post.image && post.image.trim() !== ""
+            ? `http://localhost:5000${post.image}`
+            : "";
 
-                        const imageUrl = post.image && post.image.trim() !== ""
-                            ? `http://localhost:5000${post.image}`  // Full URL to fetch image
-                            : "";  // No image URL if no image is present
-                        const postElement = document.createElement('div');
-                        postElement.classList.add('post-item');
+          const postElement = document.createElement('div');
+          postElement.classList.add('post-item');
 
+          postElement.innerHTML = `
+            <div class="post-header">
+              <div class="user-icon">${post.userId.name.charAt(0)}</div>
+              <h3>${post.userId.name}</h3>
+            </div>
+            <div class="post-content">${post.content}</div>
+            ${imageUrl ? `<img src="${imageUrl}" alt="Post Image">` : ''}
+            <div class="actions">
+              <button class="like-btn" onclick="likePost('${post._id}')">❤ Like</button>
+              <button class="comment-btn" onclick="comment('${post._id}')">💬 Comment</button>
+              <button class="share-btn" onclick="share('${post._id}')">📤 Share</button>
+            </div>
+          `;
+          feedContainer.appendChild(postElement);
+        });
+      } else {
+        showNotification('Error loading feed');
+      }
+    } catch (error) {
+      showNotification('Error fetching posts');
+    }
+  }
 
+  // Load posts on page load
+  window.onload = function () {
+    loadFeed();
+  };
 
-                        postElement.innerHTML = `
-                      
-                    
-                    <h3 style="color:#1976D2; font-weight: bold; font-size: 28px;">${post.userId.name}</h3>
-                  
-                    <hr>
-                    <br>
-                    <br>
-                    <pre style="
-                    overflow: auto; word-wrap: break-word; font-family: sanserif;">${post.content}</pre>
-                      ${imageUrl ? `<img src='${imageUrl}' alt="Post Image" style="max-width: 100%; height: 500px;">` : ''}
-    <div class="actions">
-        <button class="like-btn" onclick="likePost('${post._id}')">Like</button>
-        <button class="comment-btn" onclick="comment('${post._id}')">Comment</button>
-        <button class="share-btn" onclick="share('${post._id}')">Share</button>
-    </div>
-`;
+  // Function to handle liking a post
+  async function likePost(postId) {
+    try {
+      const response = await fetch(`http://localhost:5000/like/${postId}`, {
+        method: 'POST',
+      });
 
+      if (response.ok) {
+        showNotification('Post liked!');
+        loadFeed();
+      } else {
+        showNotification('Error liking post');
+      }
+    } catch (error) {
+      showNotification('Error liking post');
+    }
+  }
+</script>
 
-                        feedContainer.appendChild(postElement);
-                    });
-                } else {
-                    showNotification('Error loading feed');
-                }
-            } catch (error) {
-                showNotification('Error fetching posts');
-            }
-        }
-
-        // Call loadFeed when the Feed page is shown
-        // Load posts on page load
-        window.onload = function () {
-            loadFeed();
-        };
-
-        // Function to handle liking a post
-        async function likePost(postId) {
-            try {
-                const response = await fetch(`http://localhost:5000/like/${postId}`, {
-                    method: 'POST',
-                });
-
-                if (response.ok) {
-                    showNotification('Post liked!');
-                    loadFeed();  // Reload feed after liking the post
-                } else {
-                    showNotification('Error liking post');
-                }
-            } catch (error) {
-                showNotification('Error liking post');
-            }
-        }
-
-        // Function to handle unliking a post
-
-    </script>
-</body>
-
+  </body>
 </html>

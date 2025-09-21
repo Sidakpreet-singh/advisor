@@ -77,28 +77,6 @@ router.post("/create", authenticate, upload.single("image"), async (req, res) =>
     }
 });
 
-// Example login route
-// router.post("/login", async (req, res) => {
-//     try {
-//         const { username, password } = req.body;
-//         const user = await User.findOne({ username });
-
-//         if (!user) return res.status(400).json({ message: "User not found" });
-
-//         // Verify password (assuming bcrypt is used)
-//         const isMatch = await bcrypt.compare(password, user.password);
-//         if (!isMatch) return res.status(400).json({ message: "Invalid credentials" });
-
-//         // Generate JWT
-//         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-//         return res.json({ token }); // Send the token to the client
-//     } catch (error) {
-//         console.error(error);
-//         return res.status(500).json({ message: "Server error" });
-//     }
-// });
-
-// Get all posts
 router.get("/posts", async (req, res) => {
     try {
         const posts = await Post.find().populate("userId", "name").sort({ createdAt: -1 }); // Sort by newest posts
