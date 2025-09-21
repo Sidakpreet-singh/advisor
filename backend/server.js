@@ -8,7 +8,7 @@ const authRoutes = require('./routes/auth');
 const { GoogleGenerativeAI } = require('@google/generative-ai'); // Gemini SDK
 const bodyParser = require('body-parser');
 const path = require('path');
-const Conversation = require('./models/conversation'); // New import for chat memory
+const Conversation = require('./models/Conversation'); // New import for chat memory
 
 const app = express();
 const PORT = process.env.PORT || 5000;
