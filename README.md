@@ -30,7 +30,7 @@ advisor/
 │   └── .env
 ├── frontend/
 │   ├── assets/
-│   └── index.html
+│   └── index1.html
 ```
 
 ## Getting Started
@@ -46,7 +46,7 @@ cd advisor
 
 ```bash
 cd backend
-npm install -r requirements.txt
+npm install 
 ```
 
 ### 3. Configure environment variables
@@ -67,5 +67,5 @@ npm server.js
 
 ### 5. Launch the frontend
 
-Open `frontend/index.html` directly in your browser or use a Live Server extension.
+Open `frontend/index1.html` directly in your browser or use a Live Server extension.
 
