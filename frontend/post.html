@@ -161,9 +161,7 @@
 
  
  </div>
-        <!-- <div class="posts-list" id="postsList"></div> -->
-        
-<!-- </div> -->
+    
     <script>
 
         function previewImage() {
@@ -218,8 +216,7 @@ async function submitPost() {
 }
 
         function displayPosts() {
-            const postList = document.getElementById("postsList");
-            postList.innerHTML = "";
+           
             const posts = JSON.parse(localStorage.getItem("posts")) || [];
             posts.forEach(post => {
                 const postItem = document.createElement("div");
@@ -234,7 +231,7 @@ async function submitPost() {
                     img.src = post.image;
                     postItem.appendChild(img);
                 }
-                postList.appendChild(postItem);
+               
             });
         }
 

@@ -109,12 +109,15 @@
       line-height: 1.4;
       position: relative;
       word-wrap: break-word;
+       
     }
 
     .user-message {
       background: #6366f1;
-      color: white;
+      color: black;
       margin-left: auto;
+     
+
       border-radius: 15px 15px 0 15px;
     }
 
@@ -123,6 +126,7 @@
       color: #1f2937;
       margin-right: auto;
       border-radius: 15px 15px 15px 0;
+     
     }
 
     .input-container {
@@ -277,6 +281,7 @@
     userInput.addEventListener('input', () => {
       userInput.style.height = 'auto';
       userInput.style.height = userInput.scrollHeight + 'px';
+      
     });
 
     // Send message
@@ -322,11 +327,19 @@
     // Add message to chat
     function addMessage(message, sender) {
       const messageDiv = document.createElement('div');
-      messageDiv.classList.add('message', `${sender}`-message);
+      // messageDiv.classList.add('message', `${sender}`-message);
+      messageDiv.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
+
       if (sender === 'bot') {
         messageDiv.innerHTML = message;
       } else {
         messageDiv.textContent = message;
+        messageDiv.style.display ='flex';
+         messageDiv.style.justifyContent ='flex-end';
+         messageDiv.style.position ='relative';
+         messageDiv.style.left ='100px;';
+        messageDiv.style.background = '#f3f4f6';
+        
       }
       chatMessages.appendChild(messageDiv);
       chatMessages.scrollTop = chatMessages.scrollHeight;
